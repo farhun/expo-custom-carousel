@@ -1,0 +1,51 @@
+Carousel Project Documentation
+
+Overview
+--------
+In this project, I created a carousel component for a React Native app. The carousel includes images that animate in terms of scaling, rotating, and changing opacity as the user scrolls. Additionally, each image has a title that fades in when the image is active and fades out when it's inactive. I aimed to make the carousel visually engaging, interactive, and performant on both iOS and Android devices.
+
+Design and Approach
+------------------
+When designing this carousel, I focused on three main goals:
+1. Smooth Animations: The images should scale, rotate, and fade smoothly as the user scrolls through them.
+2. Interactivity: Each image has a title that fades in when the image becomes the focus and fades out when it's not.
+3. Performance: The animations should run smoothly, especially on Android, where performance can be more challenging.
+
+I decided to use react-native-reanimated to handle the animations. It provides better performance than React Native's built-in animations, especially when dealing with complex transformations like scaling, rotation, and opacity changes. I used SharedValue to control the scroll position and sync animations for both images and text.
+
+Design Choices and Implementation
+-------------------------------
+1. Carousel Layout:
+   - I created a horizontal scrollable list of images, each with a title at the bottom. The title should appear and disappear as the user scrolls through the carousel.
+   - Each image and title are wrapped in a Pressable component, allowing the user to tap on an item to navigate to a description screen.
+
+2. Animation Setup:
+   - I used useAnimatedStyle hooks to apply animations to both the images and the titles. These animations were driven by the horizontal scroll position (scrollX), which is updated as the user scrolls through the carousel.
+   - The key animations for each image are:
+     * Scale: The images get larger when they are centered and smaller when they are on the edges.
+     * Rotation: The images rotate slightly as they move away from the center to create a more dynamic effect.
+     * Opacity: The images fade in when they are centered and fade out when they are not.
+     * Height: The active image grows slightly in height to make it stand out.
+   - For the text, I applied a similar opacity animation. The title fades in when the image is active and fades out when it's not.
+
+3. Scroll Linked Animations:
+   - I used SharedValue and useAnimatedStyle to link the animations to the scroll position. This ensures that the images and titles animate as the user scrolls through the carousel. The scrollX shared value is updated with every scroll, which triggers the animations.
+
+4. Optimizing for Performance:
+   - I set scrollEventThrottle={16}, which ensures that the scroll event is processed every 16 milliseconds (around 60 frames per second). This helps make the scroll and animations feel smooth.
+   - I also ensured that the animations were offloaded to the native thread using react-native-reanimated, which helps with performance, particularly on Android.
+
+Challenges and Solutions
+----------------------
+1. Performance Issues on Android:
+   - Performance was a concern, especially on Android devices, where animations can sometimes be janky. I did not explicitly use useNativeDriver because react-native-reanimated automatically offloads the animations to the native thread, which alleviated this issue. This allowed the animations, such as scaling, rotation, and opacity changes, to run much more smoothly without impacting the frame rate significantly.
+
+2. Synchronized Animations:
+   - Initially, there was an issue where the animations for the images and titles weren't properly synchronized, creating a disjointed experience. The images and text were animating at different rates. To solve this, I ensured that both the image and text animations were controlled by the same scroll position (scrollX shared value), ensuring they remained in sync throughout the carousel scrolling.
+
+3. Animation Smoothness:
+   - Making the carousel scroll and animate smoothly was crucial. I noticed that by setting scrollEventThrottle={16}, the scroll events were processed at a rate of about 60 frames per second, which helped achieve smoother scrolling and more responsive animations. This improved the performance, especially when dealing with multiple images in the carousel.
+
+Conclusion
+----------
+Overall, this carousel project turned out to be both visually dynamic and performant. By leveraging react-native-reanimated, I was able to create smooth animations that respond directly to the scroll position. The carousel performs well even with a large number of images, and the text animations provide a nice touch of interactivity. There were some initial challenges, especially with image loading and performance on Android, but I was able to overcome them with optimizations like image preloading and using the native driver for animations.
