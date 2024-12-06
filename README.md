@@ -45,9 +45,3 @@ This magical experience is built with:
 - Tap to read fascinating historical facts about each location
 - Watch as images scale, rotate, and fade with your touch
 - Experience smooth transitions and beautiful backdrop effects
-
-## 📬 Get in Touch
-
-Having fun with the app? Got questions? We'd love to hear from you! Drop us a star if you enjoyed it! ⭐
-
-Happy exploring! 🌟
